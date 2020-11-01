@@ -58,6 +58,11 @@ Make sure to `View()` the resulting data frame (remember: run `View()` in the Co
 ```{r}
 # Your code here: 
 
+sw_split_name <- starwars %>% 
+  separate(col = name,
+           into = c("name_1", "name_2"),
+           sep = "-"
+           )
 
 ```
 
@@ -92,6 +97,12 @@ Make sure to `View()` the resulting data frame (remember: run `View()` in the Co
 ```{r}
 # Your code here:
 
+sw_skin_sep <- starwars %>% 
+  separate(col = skin_color,
+           into = c("skin_1", "skin_2"),
+           sep = ",",
+           extra = "merge",
+           remove = FALSE)
 
 ```
 
@@ -128,7 +139,11 @@ In the code chunk below, starting from the `mpg` data create a new data frame ca
 ```{r}
 # Your code here: 
 
-
+mpg_model_class <- mpg %>% 
+  unite(col = model_class,
+        c(model, class),
+        sep = "-"
+        )
 ```
 
 ### 3. Parsing dates with `lubridate()`
@@ -158,6 +173,11 @@ In the code chunk below, use `ymd()` to convert a date that you choose in `YYYY-
 ```{r}
 # Your code here: 
 
+ymd(19970915)
+
+ymd("1997-09-15")
+
+ymd("1997/09/15")
 
 ```
 
@@ -183,6 +203,11 @@ In the code chunk below, create a vector (using `c()`, as above) stored as `some
 ```{r}
 # Your code here: 
 
+some_dates <- c(11061972, 02142007, 01301843)
+some_dates_converted <- mdy(some_dates)
+some_dates_converted
+
+class(some_dates_converted)
 
 ```
 
@@ -227,7 +252,16 @@ Starting from the `lakers` dataset, create a new dataset called `gasol_hookshots
 ```{r}
 # Your code here: 
 
+gasol_hookshots <- lakers %>% 
+  filter(player == "Pau Gasol", type == "hook") %>% 
+  mutate(date = ymd(date)) %>% 
+  mutate(month = month(date))
+  
+  hook_gasol <-gasol_hookshots %>% 
+    group_by(month) %>% 
+    count(month)
 
+  hook_gasol
 ```
 
 ### 4. `dplyr::case_when()`
@@ -277,6 +311,12 @@ Note: If you add another condition within `case_when()` that is `TRUE ~ "some th
 ```{r}
 # Your code here: 
 
+storms_danger <- storms %>% 
+  mutate(danger = case_when(
+    status == "hurricane" ~"high",
+    TRUE ~ "moderate"
+  )
+  )
 
 ```
 
