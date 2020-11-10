@@ -142,7 +142,8 @@ In the code chunk below, starting from the `mpg` data create a new data frame ca
 mpg_model_class <- mpg %>% 
   unite(col = model_class,
         c(model, class),
-        sep = "-"
+        sep = "-",
+        remove = FALSE
         )
 ```
 
@@ -314,8 +315,7 @@ Note: If you add another condition within `case_when()` that is `TRUE ~ "some th
 storms_danger <- storms %>% 
   mutate(danger = case_when(
     status == "hurricane" ~"high",
-    TRUE ~ "moderate"
-  )
+    TRUE ~ "moderate")
   )
 
 ```
